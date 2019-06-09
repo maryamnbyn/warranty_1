@@ -13,6 +13,7 @@ class UserController extends Controller
     private $successStatus = 1;
     private $failedStatus = -1;
     private $successUpdate = 2;
+
     public function info()
     {
         $user = Auth::user();
@@ -30,7 +31,7 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone' => 'required',
+            'phone' => 'required|regex:/(09)[0-9]{9}',
             'device' => 'required'
         ]);
 
@@ -142,7 +143,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'max:16',
-            'phone' => 'unique:users|max:14',
+            'phone' => 'unique:users|max:14|regex:/(09)[0-9]{9}',
             'device' => 'required',
         ]);
 
@@ -181,7 +182,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'max:12',
-            'phone' => 'required',
+            'phone' => 'required|regex:/(09)[0-9]{9}',
             'device' => 'required',
             'code' => 'required|max:5',
         ]);
@@ -256,7 +257,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'code' => 'required|min:4',
             'device' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|regex:/(09)[0-9]{9}',
         ]);
 
         if ($validator->fails()) {
